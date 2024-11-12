@@ -19,7 +19,7 @@ export const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // Optionally, set a file size limit (10MB in this case)
   fileFilter: (req, file, cb) => {
     // You can filter the types of files allowed here (optional)
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; // Example: only allow images
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/mov', 'video/avi']; // Example: only allow images
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {

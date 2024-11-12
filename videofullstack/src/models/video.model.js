@@ -9,7 +9,7 @@ const videoSchema = new Schema(
         },
         thumbnail:{
             type: String, //cloudnary url
-            required: true
+            //required: true
         },
         title:{
             type: String,
@@ -17,7 +17,7 @@ const videoSchema = new Schema(
         },
         description:{
             type: String,
-            required: true
+            //required: true
         },
         time:{
             type: Number, //from cloudnary url
@@ -34,7 +34,8 @@ const videoSchema = new Schema(
         owner:[
             {
                 type: Schema.Types.ObjectId,
-                ref: "User"
+                ref: "User",
+                required: true
             }
         ]
 
