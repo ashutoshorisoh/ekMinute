@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import Register from './Components/Register'
-
+import Login from './Components/Login'
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <Register/>
-    </>
+    <div>
+      <Login/>
+    </div>
   )
 }
 
