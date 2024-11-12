@@ -1,4 +1,4 @@
-import express from "express"
+/*import express from "express"
 import {uploadPost} from '../controllers/home.controller.js'
 import { upload } from "../middlewares/multer.middleware.js"
 
@@ -15,4 +15,4 @@ router.post(
     uploadPost  
   );
 
-  export default router;
+  export default router;*/

@@ -20,8 +20,5 @@ import userRouter from './routes/user.routes.js';
 // Route declarations
 app.use("/api/v1/users", userRouter); // Mount user routes at /api/v1/users
 
-import homeRouter from './routes/home.routes.js';
-
-app.use('/home', homeRouter)
 
 export { app };
