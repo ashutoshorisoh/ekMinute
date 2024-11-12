@@ -1,6 +1,7 @@
 // src/routes/user.routes.js
 import express from "express";
-import { registerUser, loginUser, uploadPost } from "../controllers/user.controller.js";
+import { registerUser, loginUser } from "../controllers/user.controller.js";
+import { uploadPost } from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = express.Router();
@@ -27,7 +28,7 @@ router.post(
   loginUser  // Call the loginUser controller
 );
 
-router.post(
+/*router.post(
   "/post",  // Define the route path for registration
   upload.fields([  // Use multer middleware to handle file uploads
     {
@@ -36,6 +37,6 @@ router.post(
     }
   ]),
   uploadPost  
-);
+);*/
 
 export default router;

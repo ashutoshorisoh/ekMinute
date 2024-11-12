@@ -20,5 +20,7 @@ import userRouter from './routes/user.routes.js';
 // Route declarations
 app.use("/api/v1/users", userRouter); // Mount user routes at /api/v1/users
 
+import videoRouter from './routes/video.routes.js'
+app.use("/api/v1/", videoRouter); 
 
 export { app };

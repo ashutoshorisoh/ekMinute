@@ -37,7 +37,12 @@ const videoSchema = new Schema(
                 ref: "User",
                 required: true
             }
-        ]
+        ],
+        comments: {
+            type: String, // Array of strings
+            required: false
+        }
+        
 
     },
     {

@@ -106,7 +106,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 //controller for post
 
-const uploadPost = asyncHandler(async (req, res) => {
+/*const uploadPost = asyncHandler(async (req, res) => {
     const { title, description, username } = req.body;
 
     if (!title || title.trim() === "") {
@@ -158,8 +158,8 @@ const uploadPost = asyncHandler(async (req, res) => {
         console.error("Detailed error:", error);
         throw new ApiError(500, "An error occurred while uploading the video");
     }
-});
+});*/
 
 
 
-export { registerUser, loginUser, uploadPost };
+export { registerUser, loginUser };

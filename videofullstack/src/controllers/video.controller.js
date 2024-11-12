@@ -5,7 +5,7 @@ import { Video } from "../models/video.model.js";
 import { uploadOnCloudinary } from "../utils/cloudInary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-/*const uploadPost = asyncHandler(async (req, res) => {
+const uploadPost = asyncHandler(async (req, res) => {
     const { title, description, username } = req.body;
 
     if (!title || title.trim() === "") {
@@ -59,4 +59,4 @@ import { ApiResponse } from "../utils/ApiResponse.js";
     }
 });
 
-export {uploadPost} */
+export {uploadPost} 
