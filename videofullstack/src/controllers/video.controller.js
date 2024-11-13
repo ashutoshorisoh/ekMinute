@@ -59,4 +59,15 @@ const uploadPost = asyncHandler(async (req, res) => {
     }
 });
 
-export {uploadPost} 
+const getVideos = asyncHandler(async (req, res) => {
+    try {
+      const videos = await Video.find().populate('owner'); // Adjust fields as needed
+      res.status(200).json(new ApiResponse(200, "Videos fetched successfully", { data: videos }));
+    } catch (error) {
+      console.error("Detailed error:", error);
+      res.status(500).json({ message: 'Error retrieving videos' });
+    }
+  });
+  
+
+export {uploadPost, getVideos} 
