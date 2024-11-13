@@ -1,5 +1,5 @@
 import express from "express"
-import {uploadPost, getVideos} from '../controllers/video.controller.js'
+import {uploadPost, getVideos, getComments} from '../controllers/video.controller.js'
 import { upload } from "../middlewares/multer.middleware.js"
 
 const router= express.Router();
@@ -16,5 +16,6 @@ router.post(
 );
 
 router.get("/videos", getVideos)
+router.post("/comments", getComments)
 
   export default router;
