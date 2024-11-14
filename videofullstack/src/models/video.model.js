@@ -1,6 +1,12 @@
 import mongoose, {Schema} from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
+const commentSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    comment: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
 const videoSchema = new Schema(
     {
         videoFile:{
@@ -38,10 +44,7 @@ const videoSchema = new Schema(
                 required: true
             }
         ],
-        comments: {
-            type: String, // Array of strings
-            required: false
-        }
+        comments: [commentSchema]
         
 
     },

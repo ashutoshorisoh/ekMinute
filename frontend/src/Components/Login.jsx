@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+//import { useUser } from '../context/UserContext';
 
 function Login() {
   const {
@@ -7,6 +8,8 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  //const {setContextUser} = useUser()
 
   const onSubmit = async (data) => {
     try {
@@ -21,6 +24,10 @@ function Login() {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login successful:', responseData);
+
+        if(responseData.username){
+         // setContextUser(responseData.username)
+        }
       } else {
         console.log('Error:', response.status, response.statusText);
       }

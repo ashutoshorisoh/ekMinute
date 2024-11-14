@@ -69,7 +69,7 @@ const getVideos = asyncHandler(async (req, res) => {
     }
   });
 
-  const getComments = asyncHandler(async (req, res) => {
+ /* const getComments = asyncHandler(async (req, res) => {
     const { comments, username, videoFile, title, time } = req.body;
 
     // Basic validation
@@ -108,8 +108,35 @@ const getVideos = asyncHandler(async (req, res) => {
 
     console.log(createdComments);
     return res.status(201).json(new ApiResponse(200, createdComments, "Commented successfully"));
+//});*/
+
+const addComment = asyncHandler(async (req, res) => {
+    const videoId = req.params.id; // Video ID passed as a route parameter
+    const { username, comment } = req.body; // New comment details
+
+    if (!username || !comment) {
+        throw new ApiError(400, "Username and comment are required");
+    }
+
+    // Find the video by ID
+    const video = await Video.findById(videoId);
+
+    if (!video) {
+        throw new ApiError(404, "Video not found");
+    }
+
+    // Push the new comment into the comments array
+    video.comments.push({ username, comment });
+
+    // Save the updated video document
+    await video.save();
+
+    res.status(200).json(new ApiResponse(200, "Comment added successfully", video));
 });
+
+// Route for adding a comment
+
 
   
 
-export {uploadPost, getVideos, getComments} 
+export {uploadPost, getVideos, addComment} 
