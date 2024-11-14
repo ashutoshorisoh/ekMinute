@@ -6,10 +6,10 @@ const UserContext = createContext();
 
 // Provider component to wrap around your app or relevant components
 export const UserProvider = ({ children }) => {
-  const [username, setUsername] = useState('');
+  const [contextUser, setcontextUser] = useState('');
 
   return (
-    <UserContext.Provider value={{ username, setUsername }}>
+    <UserContext.Provider value={{ contextUser, setcontextUser }}>
       {children}
     </UserContext.Provider>
   );

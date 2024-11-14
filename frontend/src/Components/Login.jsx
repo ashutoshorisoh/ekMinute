@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-//import { useUser } from '../context/UserContext';
+import { useUser } from '../context/UserContext';
 
 function Login() {
   const {
@@ -9,7 +9,7 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  //const {setContextUser} = useUser()
+  const {setContextUser} = useUser()
 
   const onSubmit = async (data) => {
     try {
@@ -26,7 +26,7 @@ function Login() {
         console.log('Login successful:', responseData);
 
         if(responseData.username){
-         // setContextUser(responseData.username)
+         setContextUser(responseData.username)
         }
       } else {
         console.log('Error:', response.status, response.statusText);

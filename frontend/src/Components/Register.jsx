@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-//import { useUser } from '../context/UserContext';
+import { useUser } from '../context/UserContext';
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ const RegisterForm = () => {
   const [avatar, setAvatar] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  //const { setContextUser } = useUser();
+  const { setContextUser } = useUser();
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -42,7 +42,7 @@ const RegisterForm = () => {
 
       if (response.ok) {
         console.log('User registered successfully:', data);
-        //setContextUser(data.username);
+        setContextUser(data.username);
         // Redirect or show success message
       } else {
         setErrorMessage(data.message || 'An error occurred.');
