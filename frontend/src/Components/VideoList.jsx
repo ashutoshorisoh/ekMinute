@@ -1,10 +1,15 @@
 // src/Components/VideoList.jsx
 
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const VideoList = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const {logout} = useAuth()
+  const navigate = useNavigate();
 
   // Fetch videos from API
   useEffect(() => {
@@ -27,8 +32,18 @@ const VideoList = () => {
     return <div className="text-center text-xl">Loading videos...</div>;
   }
 
+  const handleLogout=()=>{
+    logout()
+    navigate('/login')
+  }
+
   return (
+    <div className=' flex flex-col p-2 bg-slate-500'>
+      <div className=' flex justify-end h-13 rounded-lg  min-w-full p-5 ml-[-10]'>
+        <button onClick={handleLogout} className='bg-white p-3 rounded-lg'>Login</button>
+      </div>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
+      
       {videos.length > 0 ? (
         videos.map((video) => (
           <div key={video._id} className="video-item bg-black rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out  ">
@@ -53,6 +68,7 @@ const VideoList = () => {
       ) : (
         <p className="col-span-full text-center text-xl">No videos available.</p>
       )}
+    </div>
     </div>
   );
 };
