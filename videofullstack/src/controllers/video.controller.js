@@ -134,9 +134,38 @@ const addComment = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, "Comment added successfully", video));
 });
 
-// Route for adding a comment
+const addLikes = asyncHandler(async (req, res) => {
+    const videoId = req.params.id;
+    const { username } = req.body;
+
+    if (!username) {
+        throw new ApiError(400, "Username is required");
+    }
+
+    const video = await Video.findById(videoId);
+
+    if (!video) {
+        throw new ApiError(404, "Video not found");
+    }
+
+    // Check if the user has already liked the video
+    const hasLiked = video.likes.some(like => like.username === username);
+
+    if (hasLiked) {
+        throw new ApiError(400, "User has already liked this video");
+    }
+
+    // Add the like if the user has not already liked the video
+    video.likes.push({ username });
+
+    // Save the updated video document
+    await video.save();
+
+    res.status(200).json(new ApiResponse(200, "Like added successfully", video));
+});
+
 
 
   
 
-export {uploadPost, getVideos, addComment} 
+export {uploadPost, getVideos, addComment, addLikes} 

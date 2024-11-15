@@ -1,5 +1,5 @@
 import express from "express"
-import {uploadPost, getVideos, addComment} from '../controllers/video.controller.js'
+import {uploadPost, getVideos, addComment, addLikes} from '../controllers/video.controller.js'
 import { upload } from "../middlewares/multer.middleware.js"
 
 const router= express.Router();
@@ -21,6 +21,12 @@ router.post(
   "/post/:id/comments", // Route for adding a comment to a specific video
   addComment
 );
+
+router.post(
+  "/post/:id/likes", // Route for adding a comment to a specific video
+  addLikes
+);
+
 
 
   export default router;

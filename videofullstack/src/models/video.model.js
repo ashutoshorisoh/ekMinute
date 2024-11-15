@@ -7,6 +7,10 @@ const commentSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+const LikeSchema = new mongoose.Schema({
+    username: {type: String, required: true},
+})
+
 const videoSchema = new Schema(
     {
         videoFile:{
@@ -44,7 +48,8 @@ const videoSchema = new Schema(
                 required: true
             }
         ],
-        comments: [commentSchema]
+        comments: [commentSchema],
+        likes: [LikeSchema]
         
 
     },
