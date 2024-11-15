@@ -13,7 +13,8 @@ function App() {
     // Wrap your components with UserProvider
     <UserProvider>
       <div>
-        <Posts />
+        /*<Posts />*/
+        <VideoList/>
         {/* Other components can also go here, such as <Login /> */}
       </div>
     </UserProvider>
