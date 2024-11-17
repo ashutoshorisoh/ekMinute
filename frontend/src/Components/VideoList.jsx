@@ -8,14 +8,14 @@ const VideoList = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const {logout} = useAuth()
+  const {logout, isAuthenticated} = useAuth()
   const navigate = useNavigate();
 
-  // Fetch videos from API
+  
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/videos'); // Replace with your actual API endpoint
+        const response = await fetch('http://localhost:8000/api/v1/videos'); 
         const data = await response.json();
         setVideos(data.message.data || []);
       } catch (error) {
@@ -32,17 +32,46 @@ const VideoList = () => {
     return <div className="text-center text-xl">Loading videos...</div>;
   }
 
-  const handleLogout=()=>{
-    logout()
+  const handleLoginRoute=()=>{
+
     navigate('/login')
   }
 
+  const handleCreatorRoute=()=>{
+    
+    navigate('/userspage')
+  }
+  const handleRegisterRoute=()=>{
+    navigate('/register')
+  }
+
+
   return (
-    <div className=' flex flex-col p-2 bg-slate-500'>
-      <div className=' flex justify-end h-13 rounded-lg  min-w-full p-5 ml-[-10]'>
-        <button onClick={handleLogout} className='bg-white p-3 rounded-lg'>Login</button>
+    <div className=' flex flex-col pl-2 pr-2 bg-slate-300'>
+      <div className=' flex justify-end gap-5 bg-black  rounded-lg  min-w-full p-5 ml-[-10] sticky top-0 z-10'>
+      <button onClick={handleCreatorRoute} className=' pl-5 flex text-center text-white  pr-5 pb-3 pt-3 rounded-lg'>Creators</button>
+
+      {
+  !isAuthenticated ? (
+    <>
+      <button onClick={handleLoginRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
+        Login
+      </button>
+      <button onClick={handleRegisterRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
+        Register
+      </button>
+    </>
+  ) : (
+    <button onClick={handleLoginRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
+        Logout
+      </button>
+  )
+}
+
+
+
       </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6  pt-2">
       
       {videos.length > 0 ? (
         videos.map((video) => (
