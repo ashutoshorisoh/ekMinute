@@ -40,7 +40,7 @@ const VideoList = () => {
   return (
     <div className=' flex flex-col pl-2 pr-2 bg-slate-300'>
       
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6  pt-2">
+    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6  pt-2">
       
       {videos.length > 0 ? (
         videos.map((video) => (
