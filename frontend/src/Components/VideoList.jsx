@@ -32,50 +32,19 @@ const VideoList = () => {
     return <div className="text-center text-xl">Loading videos...</div>;
   }
 
-  const handleLoginRoute=()=>{
-
-    navigate('/login')
-  }
-
-  const handleCreatorRoute=()=>{
-    
-    navigate('/userspage')
-  }
-  const handleRegisterRoute=()=>{
-    navigate('/register')
-  }
+  const handleVideoClick = (video) => {
+    navigate(`/video/${video._id}`, { state: { video } }); // Pass only the video data
+  };
 
 
   return (
     <div className=' flex flex-col pl-2 pr-2 bg-slate-300'>
-      <div className=' flex justify-end gap-5 bg-black  rounded-lg  min-w-full p-5 ml-[-10] sticky top-0 z-10'>
-      <button onClick={handleCreatorRoute} className=' pl-5 flex text-center text-white  pr-5 pb-3 pt-3 rounded-lg'>Creators</button>
-
-      {
-  !isAuthenticated ? (
-    <>
-      <button onClick={handleLoginRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
-        Login
-      </button>
-      <button onClick={handleRegisterRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
-        Register
-      </button>
-    </>
-  ) : (
-    <button onClick={handleLoginRoute} className='pl-5 flex text-center text-white pr-5 pb-3 pt-3 rounded-lg'>
-        Logout
-      </button>
-  )
-}
-
-
-
-      </div>
+      
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6  pt-2">
       
       {videos.length > 0 ? (
         videos.map((video) => (
-          <div key={video._id} className="video-item bg-black rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out  ">
+          <div key={video._id} className="video-item bg-black rounded-md shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out  cursor-pointer " onClick={() => handleVideoClick(video)}>
             <div className="video-thumbnail relative pb-[56.25%]"> {/* 16:9 aspect ratio */}
               <video  className="absolute top-0 left-0 w-full h-full object-contain pb-1">
                 <source src={video.videoFile} type="video/mp4" />
