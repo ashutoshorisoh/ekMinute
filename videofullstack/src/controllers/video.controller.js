@@ -127,6 +127,8 @@ const addComment = asyncHandler(async (req, res) => {
 
     // Push the new comment into the comments array
     video.comments.push({ username, comment });
+    console.log(`new comment on ${video._id} by ${username}`);
+    
 
     // Save the updated video document
     await video.save();
@@ -157,6 +159,7 @@ const addLikes = asyncHandler(async (req, res) => {
 
     // Add the like if the user has not already liked the video
     video.likes.push({ username });
+    console.log("liked")
 
     // Save the updated video document
     await video.save();
