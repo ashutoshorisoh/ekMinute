@@ -151,21 +151,24 @@ const addLikes = asyncHandler(async (req, res) => {
     }
 
     // Check if the user has already liked the video
-    const hasLiked = video.likes.some(like => like.username === username);
+    const likeIndex = video.likes.findIndex(like => like.username === username);
 
-    if (hasLiked) {
-        throw new ApiError(400, "User has already liked this video");
+    if (likeIndex > -1) {
+        // User has already liked, remove the like
+        video.likes.splice(likeIndex, 1);
+        console.log("unliked");
+    } else {
+        // User has not liked yet, add the like
+        video.likes.push({ username });
+        console.log("liked");
     }
-
-    // Add the like if the user has not already liked the video
-    video.likes.push({ username });
-    console.log("liked")
 
     // Save the updated video document
     await video.save();
 
-    res.status(200).json(new ApiResponse(200, "Like added successfully", video));
+    res.status(200).json(new ApiResponse(200, "Like updated successfully", video));
 });
+
 
 
 

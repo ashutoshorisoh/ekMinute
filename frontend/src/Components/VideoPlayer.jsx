@@ -10,6 +10,7 @@ const VideoPlayer = () => {
   const [loading, setLoading] = useState(true);
   const [videos, setVideos] = useState([]);
   const [likes, setLikes] = useState(0);
+  const [likedByUser, setLikedByUser] = useState(false);
   const [comments, setComments] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,41 +41,43 @@ const VideoPlayer = () => {
     // Set initial like and comment counts
     setLikes(video.likes?.length || 0);
     setComments(video.comments?.length || 0);
-  }, [video]);
 
-  const handleLike = async () => {
-  if (!isAuthenticated) {
-    alert("Please log in to like this video.");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `http://localhost:8000/api/v1/post/${video._id}/likes`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: contextUser }),
-      }
-    );
-
-    if (response.ok) {
-      const updatedVideo = await response.json(); // Get updated video data from the backend
-      console.log(updatedVideo);
-
-      // Update the likes count using the response from the backend
-      setLikes(updatedVideo.message.likes.length); // Assuming updatedVideo.message contains the video data
-    } else {
-      alert("Failed to like the video.");
-      console.error("Failed to like the video.");
+    // Check if the user has already liked the video
+    if (video.likes?.includes(contextUser)) {
+      setLikedByUser(true);
     }
-  } catch (error) {
-    console.error("Error liking the video:", error);
-  }
-};
+  }, [video, contextUser]);
 
-
-  console.log(contextUser)
+  const handleLikeToggle = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to like this video.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/post/${video._id}/likes`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: contextUser }),
+        }
+      );
+  
+      if (response.ok) {
+        const updatedVideo = await response.json();
+        setLikes(updatedVideo.message.likes.length);
+       
+        setLikedByUser(likedByUser); // Update the likes count
+      } else {
+        alert("Failed to update like.");
+        console.error("Failed to update like.");
+      }
+    } catch (error) {
+      console.error("Error updating like:", error);
+    }
+  };
+  
 
   const handleComment = async () => {
     if (!isAuthenticated) {
@@ -129,16 +132,18 @@ const VideoPlayer = () => {
             </div>
             <div className="flex justify-center mt-4 gap-20">
               <button
-                className="text-sm shadow-md rounded-md px-6 py-3 text-black hover:text-white flex gap-1 flex-row"
-                onClick={handleLike}
+                className={`text-sm shadow-md rounded-md px-6 py-3 flex gap-1 flex-row ${
+                  likedByUser ? "text-red-700" : "text-black hover:text-white"
+                }`}
+                onClick={handleLikeToggle}
               >
-                <p className="text-red-700">{video.likes.length}</p> <Heart />
+                <p>{likes}</p> <Heart fill={likedByUser ? "red" : "none"} />
               </button>
               <button
-                className="text-sm shadow-md rounded-md px-6 py-3 text-black hover:text-white"
+                className="text-sm shadow-md rounded-md px-6 gap-1 justify-center items-center flex flex-row py-3 text-black hover:text-white"
                 onClick={handleComment}
               >
-                <MessageCircle />
+                <p>{comments}</p> <MessageCircle />
               </button>
               <button className="text-sm shadow-md rounded-md px-6 py-3 text-black hover:text-white">
                 <Forward />
