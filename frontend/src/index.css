@@ -10,3 +10,11 @@
     background-size: 50px 50px; /* Adjust the size of the dots */
     pointer-events: none; /* Prevent the grid from interfering with other elements */
   }
+  .fill-red-700 {
+    fill: #c53030; /* Red color */
+  }
+  
+  .fill-none {
+    fill: none;
+  }
+  

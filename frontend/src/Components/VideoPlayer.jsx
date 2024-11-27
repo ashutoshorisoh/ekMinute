@@ -17,7 +17,6 @@ const VideoPlayer = () => {
   const { id } = useParams();
   const video = location.state?.video;
 
-  // Redirect to home if accessed without state
   if (!video) {
     navigate("/home");
     return null;
@@ -38,14 +37,12 @@ const VideoPlayer = () => {
 
     fetchVideos();
 
-    // Set initial like and comment counts
+    // Initialize like and comment counts
     setLikes(video.likes?.length || 0);
     setComments(video.comments?.length || 0);
 
-    // Check if the user has already liked the video
-    if (video.likes?.includes(contextUser)) {
-      setLikedByUser(true);
-    }
+    // Check if user has liked the video
+    setLikedByUser(video.likes?.some(like => like.username === contextUser));
   }, [video, contextUser]);
 
   const handleLikeToggle = async () => {
@@ -53,31 +50,30 @@ const VideoPlayer = () => {
       alert("Please log in to like this video.");
       return;
     }
-  
+
     try {
       const response = await fetch(
         `http://localhost:8000/api/v1/post/${video._id}/likes`,
         {
-          method: "POST",
+          method: "POST", // Backend toggles like/unlike
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username: contextUser }),
         }
       );
-  
+
       if (response.ok) {
         const updatedVideo = await response.json();
+
+        // Update likes count and likedByUser state
         setLikes(updatedVideo.message.likes.length);
-       
-        setLikedByUser(likedByUser); // Update the likes count
+        setLikedByUser(updatedVideo.message.likes.some(like => like.username === contextUser));
       } else {
         alert("Failed to update like.");
-        console.error("Failed to update like.");
       }
     } catch (error) {
       console.error("Error updating like:", error);
     }
   };
-  
 
   const handleComment = async () => {
     if (!isAuthenticated) {
@@ -99,10 +95,9 @@ const VideoPlayer = () => {
       );
 
       if (response.ok) {
-        setComments((prev) => prev + 1); // Increment comment count on success
+        setComments((prev) => prev + 1); // Increment comment count
       } else {
         alert("Failed to post the comment.");
-        console.error("Failed to post the comment.");
       }
     } catch (error) {
       console.error("Error posting comment:", error);
@@ -130,15 +125,22 @@ const VideoPlayer = () => {
                 {video.views} views
               </h1>
             </div>
+
             <div className="flex justify-center mt-4 gap-20">
+              {/* Like Button */}
               <button
-                className={`text-sm shadow-md rounded-md px-6 py-3 flex gap-1 flex-row ${
+                className={`text-sm shadow-md rounded-md px-6 py-3 flex gap-1 ${
                   likedByUser ? "text-red-700" : "text-black hover:text-white"
                 }`}
                 onClick={handleLikeToggle}
               >
-                <p>{likes}</p> <Heart fill={likedByUser ? "red" : "none"} />
+                <p>{likes}</p>
+                <Heart
+                 className={`w-5 h-5 ${likedByUser ? "fill-red-700 text-red-700" : " text-black"}`}
+                 />
               </button>
+
+              {/* Comment Button */}
               <button
                 className="text-sm shadow-md rounded-md px-6 gap-1 justify-center items-center flex flex-row py-3 text-black hover:text-white"
                 onClick={handleComment}
@@ -152,6 +154,7 @@ const VideoPlayer = () => {
                 <BookMarked />
               </button>
             </div>
+
             <div className="flex justify-between mt-4">
               <button className="text-sm border shadow-md rounded-lg p-5 text-black bg-blue-300 hover:bg-green-500 font-bold">
                 {video.owner[0]?.username || "Unknown"}
@@ -161,11 +164,11 @@ const VideoPlayer = () => {
         </div>
       </div>
 
-      {/* Scrollable Suggested Videos Section */}
-      <div className="lg:w-[40%] w-full lg:z-0 flex-grow overflow-y-auto p-6 lg:h-full lg:mt-0 mt-[-338px] bg-green-800 text-black">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-1 mt-[-22px]">
+      {/* Suggested Videos Section */}
+      <div className="lg:w-[40%] w-full flex-grow overflow-y-auto p-6 bg-green-800 text-black">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-1">
           {videos
-            .filter((vid) => vid._id !== video.id) // Exclude the currently playing video
+            .filter((vid) => vid._id !== video.id)
             .map((suggestedVideo) => (
               <div
                 key={suggestedVideo._id}
