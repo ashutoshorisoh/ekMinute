@@ -163,11 +163,17 @@ const VideoPlayer = () => {
               </button>
             </div>
             {/*comments*/}
-            <div className="">
-               
-            </div>
+            
           </div>
+          <div className=" border border-black w-full p-6">
+            {video.comments.map((comment, index) => (
+                <p key={comment._id}>
+                    <strong>{comment.username}:</strong> {comment.comment}
+                </p>
+            ))}
+            </div>
         </div>
+        
       </div>
       
 
