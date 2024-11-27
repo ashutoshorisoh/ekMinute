@@ -109,16 +109,16 @@ const VideoPlayer = () => {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row bg-green-950">
+    <div className="flex flex-col lg:flex-row bg-white">
       {/* Sticky Video Player Section */}
-      <div className="lg:w-[55%] h-full w-full lg:sticky top-0 overflow-hidden shadow-md flex items-start justify-center pt-1 ml-2 mr-2">
+      <div className="lg:w-[60%] h-screen w-full lg:sticky top-0 overflow-hidden shadow-md flex items-start justify-center pt-1 mb-[-140px] ml-2 mt-1 mr-2">
         <div className="w-full mx-auto pb-[56.25%] flex flex-col items-center object-contain">
           <video
             src={video.videoFile}
             controls
             className="w-full h-[388px] aspect-video shadow-md"
           />
-          <div className="flex flex-col justify-between bg-blue-400 p-6 mt-4 rounded-br-full shadow-md w-full">
+          <div className="flex flex-col justify-between bg-black text-white p-6 mt-4 rounded-b-md shadow-md border-black border shadow-slate-600 w-full">
             <div className="flex justify-between">
               <h1 className="lg:text-2xl text-xl font-bold">{video.title}</h1>
               <h1 className="lg:text-2xl text-xl font-semibold">
@@ -126,53 +126,60 @@ const VideoPlayer = () => {
               </h1>
             </div>
 
-            <div className="flex justify-center mt-4 gap-20">
-              {/* Like Button */}
-              <button
-                className={`text-sm shadow-md rounded-md px-6 py-3 flex gap-1 ${
-                  likedByUser ? "text-red-700" : "text-black hover:text-white"
-                }`}
-                onClick={handleLikeToggle}
-              >
-                <p>{likes}</p>
-                <Heart
-                 className={`w-5 h-5 ${likedByUser ? "fill-red-700 text-red-700" : " text-black"}`}
-                 />
-              </button>
+            <div className="flex justify-center mt-4 gap-20 text-white">
+  {/* Like Button */}
+  <button
+    className={`text-sm shadow-md rounded-md px-6 py-3 flex gap-1 text-white hover:bg-gray-700 hover:text-red-200`} // Added hover effect for background and text color
+    onClick={handleLikeToggle}
+  >
+    <p>{likes}</p>
+    <Heart
+      className={`w-5 h-5 ${likedByUser ? "fill-red-800 text-red-700" : "text-white"}`}
+    />
+  </button>
 
-              {/* Comment Button */}
-              <button
-                className="text-sm shadow-md rounded-md px-6 gap-1 justify-center items-center flex flex-row py-3 text-black hover:text-white"
-                onClick={handleComment}
-              >
-                <p>{comments}</p> <MessageCircle />
-              </button>
-              <button className="text-sm shadow-md rounded-md px-6 py-3 text-black hover:text-white">
-                <Forward />
-              </button>
-              <button className="text-sm shadow-md rounded-md px-6 py-3 text-black hover:text-white">
-                <BookMarked />
-              </button>
+  {/* Comment Button */}
+  <button
+    className="text-sm shadow-md rounded-md px-6 gap-1 justify-center items-center flex flex-row py-3 text-white hover:bg-gray-700 hover:text-red-200" // Added hover effect for background and text color
+    onClick={handleComment}
+  >
+    <p>{comments}</p>
+    <MessageCircle className="hover:text-red-200" /> {/* Added hover effect to the icon */}
+  </button>
+
+  <button className="text-sm shadow-md rounded-md px-6 py-3 text-white hover:bg-gray-700 hover:text-red-200">
+    <Forward className="hover:text-red-200" /> {/* Added hover effect to the icon */}
+  </button>
+
+  <button className="text-sm shadow-md rounded-md px-6 py-3 text-white hover:bg-gray-700 hover:text-white">
+    <BookMarked className="hover:text-white" /> {/* Added hover effect to the icon */}
+  </button>
             </div>
 
-            <div className="flex justify-between mt-4">
+
+            <div className="flex justify-between mt-1">
               <button className="text-sm border shadow-md rounded-lg p-5 text-black bg-blue-300 hover:bg-green-500 font-bold">
                 {video.owner[0]?.username || "Unknown"}
               </button>
             </div>
+            {/*comments*/}
+            <div className="">
+               
+            </div>
           </div>
         </div>
       </div>
+      
 
       {/* Suggested Videos Section */}
-      <div className="lg:w-[40%] w-full flex-grow overflow-y-auto p-6 bg-green-800 text-black">
+      <div className="lg:w-[30%] w-full flex-grow overflow-y-auto pl-1 pr-1 pb-1 bg-white border-l-2 border-r-2 text-black pt-1">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-1">
           {videos
             .filter((vid) => vid._id !== video.id)
             .map((suggestedVideo) => (
               <div
                 key={suggestedVideo._id}
-                className="flex flex-col bg-gray-100 shadow-md rounded-sm overflow-hidden cursor-pointer hover:shadow-lg"
+                className="flex flex-col bg-white border-black border shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg  text-black"
                 onClick={() =>
                   navigate(`/video/${suggestedVideo._id}`, {
                     state: { video: suggestedVideo },
@@ -181,17 +188,25 @@ const VideoPlayer = () => {
               >
                 <video
                   src={suggestedVideo.videoFile}
-                  className="w-full aspect-video object-cover"
+                  className="w-full aspect-video object-contain"
                   controls={false}
                 />
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg truncate">
+                <div className="flex flex-row items-center justify-between pl-5 pr-5">
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg truncate">
                     {suggestedVideo.title}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {suggestedVideo.views} views
-                  </p>
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                    <p>{suggestedVideo.owner[0]?.username}</p>
+                    
+                    </p>
+                  </div>
+                  <div>
+                    <p>{suggestedVideo.views} views</p>
+                  </div>
+
                 </div>
+                
               </div>
             ))}
         </div>

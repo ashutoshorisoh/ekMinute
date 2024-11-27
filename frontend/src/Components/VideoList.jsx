@@ -38,13 +38,13 @@ const VideoList = () => {
 
 
   return (
-    <div className=' flex flex-col pl-2 pr-2 bg-slate-300'>
+    <div className=' h-full pb-2 flex flex-col pl-2 pr-2 bg-white'>
       
-    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6  pt-2">
+    <div className="grid h-full  grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6  pt-2 ">
       
       {videos.length > 0 ? (
         videos.map((video) => (
-          <div key={video._id} className="video-item bg-black rounded-md shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out  cursor-pointer " onClick={() => handleVideoClick(video)}>
+          <div key={video._id} className="video-item bg-black rounded-md shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out  cursor-pointer border-black border" onClick={() => handleVideoClick(video)}>
             <div className="video-thumbnail relative pb-[56.25%]"> {/* 16:9 aspect ratio */}
               <video  className="absolute top-0 left-0 w-full h-full object-contain pb-1">
                 <source src={video.videoFile} type="video/mp4" />
